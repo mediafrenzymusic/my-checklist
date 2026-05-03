@@ -10,59 +10,34 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #f5f3ef;
-    --surface: #ffffff;
-    --surface2: #eceae5;
-    --text: #1a1917;
-    --text2: #6b6860;
-    --text3: #a8a59f;
-    --border: rgba(0,0,0,0.08);
-    --border2: rgba(0,0,0,0.14);
-    --accent: #2d5a3d;
-    --accent-light: #e8f0ea;
-    --accent-text: #1d3d29;
-    --danger: #c0392b;
-    --danger-light: #fdf0ee;
-    --warn: #b07d2a;
-    --warn-light: #fdf6e8;
-    --radius: 14px;
-    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --bg: #f5f3ef; --surface: #ffffff; --surface2: #eceae5;
+    --text: #1a1917; --text2: #6b6860; --text3: #a8a59f;
+    --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.14);
+    --accent: #2d5a3d; --accent-light: #e8f0ea; --accent-text: #1d3d29;
+    --danger: #c0392b; --danger-light: #fdf0ee;
+    --warn: #b07d2a; --warn-light: #fdf6e8;
+    --radius: 14px; --shadow: 0 2px 12px rgba(0,0,0,0.07);
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #141412;
-      --surface: #1e1e1b;
-      --surface2: #272724;
-      --text: #f0ede8;
-      --text2: #9a9690;
-      --text3: #5a5752;
-      --border: rgba(255,255,255,0.07);
-      --border2: rgba(255,255,255,0.12);
-      --accent: #4a8c5c;
-      --accent-light: #1a2e20;
-      --accent-text: #a8d4b4;
-      --danger: #e05c4a;
-      --danger-light: #2a1815;
-      --warn: #d4a03a;
-      --warn-light: #2a2010;
+      --bg: #141412; --surface: #1e1e1b; --surface2: #272724;
+      --text: #f0ede8; --text2: #9a9690; --text3: #5a5752;
+      --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+      --accent: #4a8c5c; --accent-light: #1a2e20; --accent-text: #a8d4b4;
+      --danger: #e05c4a; --danger-light: #2a1815;
+      --warn: #d4a03a; --warn-light: #2a2010;
       --shadow: 0 2px 12px rgba(0,0,0,0.3);
     }
   }
-
   html, body { height: 100%; background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--text); }
-
   #app { max-width: 480px; margin: 0 auto; padding: 0 0 100px; min-height: 100vh; }
 
-  /* Header */
   .header { padding: 48px 20px 24px; }
   .header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
   .header h1 { font-family: 'DM Serif Display', serif; font-size: 34px; font-weight: 400; line-height: 1.1; color: var(--text); }
   .date-chip { font-size: 12px; color: var(--text3); background: var(--surface2); padding: 5px 10px; border-radius: 99px; white-space: nowrap; margin-top: 6px; }
 
-  /* Progress */
   .progress-section { padding: 0 20px 20px; }
   .progress-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
   .progress-label { font-size: 13px; color: var(--text2); }
@@ -70,13 +45,11 @@
   .progress-track { height: 5px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
 
-  /* Stats row */
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 20px 24px; }
   .stat { background: var(--surface); border-radius: var(--radius); padding: 14px 12px; text-align: center; border: 1px solid var(--border); }
   .stat-num { font-size: 26px; font-weight: 300; color: var(--text); line-height: 1; }
   .stat-label { font-size: 11px; color: var(--text3); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
 
-  /* Add task */
   .add-section { padding: 0 20px 20px; }
   .add-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; box-shadow: var(--shadow); }
   .add-row { display: flex; gap: 8px; margin-bottom: 10px; }
@@ -86,11 +59,13 @@
   .add-btn { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 0 18px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; white-space: nowrap; }
   .add-btn:active { opacity: 0.85; transform: scale(0.97); }
   .add-extras { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .date-input { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text2); background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; outline: none; flex: 1; min-width: 120px; }
-  .date-input:focus { border-color: var(--accent); }
+  .date-input, .time-input { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text2); background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; outline: none; }
+  .date-input { flex: 1; min-width: 120px; }
+  .date-input:focus, .time-input:focus { border-color: var(--accent); }
   .priority-select { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text2); background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; outline: none; }
+  .alarm-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+  .alarm-label { font-size: 12px; color: var(--text3); white-space: nowrap; }
 
-  /* Filter tabs */
   .filter-section { padding: 0 20px 16px; }
   .filter-scroll { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
   .filter-scroll::-webkit-scrollbar { display: none; }
@@ -98,7 +73,6 @@
   .filter-btn:hover { border-color: var(--border2); color: var(--text); }
   .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 500; }
 
-  /* Month view */
   .month-section { padding: 0 20px 8px; }
   .month-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
   .month-scroll::-webkit-scrollbar { display: none; }
@@ -106,7 +80,6 @@
   .month-chip:hover { border-color: var(--border2); color: var(--text); }
   .month-chip.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent-text); font-weight: 500; }
 
-  /* Task list */
   .tasks-section { padding: 0 20px; }
   .date-group { margin-bottom: 20px; }
   .date-group-label { font-size: 12px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; padding-left: 4px; }
@@ -136,26 +109,28 @@
   .priority-badge.high { background: var(--danger-light); color: var(--danger); }
   .priority-badge.medium { background: var(--warn-light); color: var(--warn); }
   .priority-badge.low { background: var(--surface2); color: var(--text3); }
+  .alarm-badge { font-size: 11px; padding: 2px 8px; border-radius: 99px; background: var(--surface2); color: var(--text2); }
+  .alarm-badge.fired { background: var(--accent-light); color: var(--accent-text); }
 
   .task-del { width: 30px; height: 30px; border-radius: 50%; border: none; background: transparent; cursor: pointer; color: var(--text3); font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .task-del:hover { background: var(--danger-light); color: var(--danger); }
 
-  /* Empty */
   .empty { text-align: center; padding: 48px 20px; color: var(--text3); font-size: 15px; }
   .empty-icon { font-size: 36px; margin-bottom: 12px; }
 
-  /* Sync status */
-  .sync-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--text3); max-width: 480px; margin: 0 auto; }
+  .notif-banner { margin: 0 20px 16px; background: var(--warn-light); border: 1px solid var(--warn); border-radius: var(--radius); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .notif-banner p { font-size: 13px; color: var(--warn); flex: 1; }
+  .notif-banner button { background: var(--warn); color: #fff; border: none; border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
+
+  .sync-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--surface); border-top: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--text3); }
   .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text3); margin-right: 6px; display: inline-block; }
   .sync-dot.synced { background: var(--accent); }
   .sync-dot.syncing { background: var(--warn); animation: pulse 1s infinite; }
   .sync-dot.error { background: var(--danger); }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-  .clear-btn { font-size: 13px; color: var(--text3); background: none; border: none; cursor: pointer; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+  .clear-btn { font-size: 13px; color: var(--text3); background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
   .clear-btn:hover { color: var(--danger); }
 
-  /* Loading */
   #loading { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; z-index: 100; }
   #loading .logo { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--text); }
   #loading .spinner { width: 28px; height: 28px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
@@ -170,7 +145,6 @@
 </div>
 
 <div id="app" style="display:none">
-
   <div class="header">
     <div class="header-top">
       <h1>My<br>Checklist</h1>
@@ -192,6 +166,8 @@
     <div class="stat"><div class="stat-num" id="s-left">0</div><div class="stat-label">Left</div></div>
   </div>
 
+  <div id="notif-banner-wrap"></div>
+
   <div class="add-section">
     <div class="add-card">
       <div class="add-row">
@@ -199,13 +175,18 @@
         <button class="add-btn" onclick="addTask()">Add</button>
       </div>
       <div class="add-extras">
-        <input class="date-input" id="new-date" type="date" />
+        <input class="date-input" id="new-date" type="date" title="Due date" />
         <select class="priority-select" id="new-priority">
           <option value="">No priority</option>
           <option value="high">🔴 High</option>
           <option value="medium">🟡 Medium</option>
           <option value="low">🔵 Low</option>
         </select>
+      </div>
+      <div class="alarm-row">
+        <span class="alarm-label">🔔 Alarm:</span>
+        <input class="time-input" id="new-alarm-date" type="date" title="Alarm date" />
+        <input class="time-input" id="new-alarm-time" type="time" title="Alarm time" />
       </div>
     </div>
   </div>
@@ -228,10 +209,9 @@
   <div class="tasks-section">
     <div id="task-list"></div>
   </div>
-
 </div>
 
-<div class="sync-bar" style="max-width:480px;left:50%;transform:translateX(-50%);right:auto;width:100%;">
+<div class="sync-bar">
   <span><span class="sync-dot" id="sync-dot"></span><span id="sync-label">Connecting…</span></span>
   <button class="clear-btn" onclick="clearDone()">Clear completed</button>
 </div>
@@ -257,203 +237,190 @@ let tasks = [];
 let filter = 'all';
 let activeMonth = null;
 let editingId = null;
+const alarmTimers = {};
 
-// Date helpers
-const today = () => new Date().toISOString().slice(0,10);
+// ── Notifications ─────────────────────────────────────────────────────
+function checkNotifPermission() {
+  if (!('Notification' in window)) return;
+  const wrap = document.getElementById('notif-banner-wrap');
+  if (Notification.permission === 'default') {
+    wrap.innerHTML = `<div class="notif-banner"><p>Enable notifications so your alarms can alert you 🔔</p><button onclick="requestNotif()">Enable alarms</button></div>`;
+  } else {
+    wrap.innerHTML = '';
+  }
+}
+
+window.requestNotif = async function() {
+  await Notification.requestPermission();
+  checkNotifPermission();
+  scheduleAllAlarms();
+};
+
+function scheduleAllAlarms() {
+  Object.values(alarmTimers).forEach(t => clearTimeout(t));
+  Object.keys(alarmTimers).forEach(k => delete alarmTimers[k]);
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const now = Date.now();
+  tasks.forEach(t => {
+    if (t.done || !t.alarmAt) return;
+    const fireAt = new Date(t.alarmAt).getTime();
+    const delay = fireAt - now;
+    if (delay > 0 && delay < 7 * 24 * 60 * 60 * 1000) {
+      alarmTimers[t.id] = setTimeout(() => {
+        new Notification('⏰ ' + t.text, {
+          body: t.dueDate ? 'Due: ' + formatDate(t.dueDate) : 'Your checklist reminder',
+          tag: t.id,
+          requireInteraction: true
+        });
+      }, delay);
+    }
+  });
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────
+const todayStr = () => new Date().toISOString().slice(0,10);
 const todayDate = new Date(); todayDate.setHours(0,0,0,0);
 function parseDate(str) { if (!str) return null; const [y,m,d] = str.split('-'); return new Date(y,m-1,d); }
 function isOverdue(str) { if (!str) return false; return parseDate(str) < todayDate; }
-function isToday(str) { return str === today(); }
+function isToday(str) { return str === todayStr(); }
 function isThisWeek(str) { if (!str) return false; const d = parseDate(str); const end = new Date(todayDate); end.setDate(end.getDate()+7); return d >= todayDate && d <= end; }
-
-// Sync status
-function setSyncStatus(state, msg) {
-  const dot = document.getElementById('sync-dot');
-  const lbl = document.getElementById('sync-label');
-  dot.className = 'sync-dot ' + state;
-  lbl.textContent = msg;
-}
-
-// Date chip
-document.getElementById('date-chip').textContent = new Date().toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
-
-// Month chips
-function buildMonthChips() {
-  const months = [];
-  const now = new Date();
-  for (let i = 0; i < 6; i++) {
-    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
-    months.push({ key: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`, label: d.toLocaleDateString('en-GB', { month:'long', year:'numeric' }) });
-  }
-  const scr = document.getElementById('month-scroll');
-  scr.innerHTML = `<button class="month-chip ${activeMonth===null?'active':''}" onclick="setMonth(null,this)">All months</button>` +
-    months.map(m => `<button class="month-chip ${activeMonth===m.key?'active':''}" onclick="setMonth('${m.key}',this)">${m.label}</button>`).join('');
-}
-
-window.setMonth = function(key, btn) {
-  activeMonth = key;
-  document.querySelectorAll('.month-chip').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  render();
-};
-
-window.setFilter = function(f, btn) {
-  filter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  render();
-};
-
-// Add task
-window.addTask = async function() {
-  const text = document.getElementById('new-text').value.trim();
-  if (!text) return;
-  const dueDate = document.getElementById('new-date').value || null;
-  const priority = document.getElementById('new-priority').value || null;
-  setSyncStatus('syncing', 'Saving…');
-  try {
-    await addDoc(tasksCol, { text, done: false, dueDate, priority, createdAt: serverTimestamp() });
-    document.getElementById('new-text').value = '';
-    document.getElementById('new-date').value = '';
-    document.getElementById('new-priority').value = '';
-    setSyncStatus('synced', 'Synced');
-  } catch(e) { setSyncStatus('error', 'Error saving'); }
-};
-
-// Toggle
-window.toggleTask = async function(id, current) {
-  setSyncStatus('syncing', 'Saving…');
-  try { await updateDoc(doc(db,'tasks',id), { done: !current }); setSyncStatus('synced','Synced'); }
-  catch(e) { setSyncStatus('error','Error'); }
-};
-
-// Delete
-window.delTask = async function(id) {
-  setSyncStatus('syncing','Saving…');
-  try { await deleteDoc(doc(db,'tasks',id)); setSyncStatus('synced','Synced'); }
-  catch(e) { setSyncStatus('error','Error'); }
-};
-
-// Edit
-window.startEdit = function(id) { editingId = id; render(); const el = document.getElementById('edit-'+id); if(el){el.focus();el.select();} };
-window.finishEdit = async function(id) {
-  const el = document.getElementById('edit-'+id); if(!el) return;
-  const val = el.value.trim();
-  if(val) { setSyncStatus('syncing','Saving…'); try { await updateDoc(doc(db,'tasks',id),{text:val}); setSyncStatus('synced','Synced'); } catch(e){setSyncStatus('error','Error');} }
-  editingId = null; render();
-};
-
-// Clear done
-window.clearDone = async function() {
-  const doneTasks = tasks.filter(t => t.done);
-  setSyncStatus('syncing','Saving…');
-  try { await Promise.all(doneTasks.map(t => deleteDoc(doc(db,'tasks',t.id)))); setSyncStatus('synced','Synced'); }
-  catch(e) { setSyncStatus('error','Error'); }
-};
-
-// Render
-function render() {
-  let visible = [...tasks];
-
-  // Month filter
-  if (activeMonth) visible = visible.filter(t => t.dueDate && t.dueDate.slice(0,7) === activeMonth);
-
-  // Status filter
-  if (filter === 'today') visible = visible.filter(t => isToday(t.dueDate));
-  else if (filter === 'week') visible = visible.filter(t => isThisWeek(t.dueDate));
-  else if (filter === 'active') visible = visible.filter(t => !t.done);
-  else if (filter === 'done') visible = visible.filter(t => t.done);
-  else if (filter === 'overdue') visible = visible.filter(t => !t.done && isOverdue(t.dueDate));
-
-  // Stats (from all tasks)
-  const total = tasks.length;
-  const done = tasks.filter(t => t.done).length;
-  document.getElementById('s-total').textContent = total;
-  document.getElementById('s-done').textContent = done;
-  document.getElementById('s-left').textContent = total - done;
-  document.getElementById('progress-label').textContent = `${done} of ${total} done`;
-  const pct = total ? Math.round(done/total*100) : 0;
-  document.getElementById('progress-pct').textContent = pct + '%';
-  document.getElementById('progress-fill').style.width = pct + '%';
-
-  // Group by date
-  const groups = {};
-  const noDate = [];
-  visible.forEach(t => {
-    if (!t.dueDate) { noDate.push(t); return; }
-    const key = t.dueDate;
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(t);
-  });
-
-  const sortedKeys = Object.keys(groups).sort();
-  let html = '';
-
-  function taskHtml(t) {
-    let dateBadge = '';
-    if (t.dueDate) {
-      if (!t.done && isOverdue(t.dueDate)) dateBadge = `<span class="task-date-badge overdue">Overdue · ${formatDate(t.dueDate)}</span>`;
-      else if (isToday(t.dueDate)) dateBadge = `<span class="task-date-badge today">Today</span>`;
-      else dateBadge = `<span class="task-date-badge future">${formatDate(t.dueDate)}</span>`;
-    }
-    const priClass = t.priority || '';
-    const priBadge = t.priority ? `<span class="priority-badge ${priClass}">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>` : '';
-    return `<div class="task-item ${t.done?'done':''}" id="item-${t.id}">
-      <button class="check-btn ${t.done?'checked':''}" onclick="toggleTask('${t.id}',${t.done})"></button>
-      <div class="task-body">
-        ${editingId===t.id
-          ? `<input class="task-edit-input" id="edit-${t.id}" value="${t.text.replace(/"/g,'&quot;')}" onblur="finishEdit('${t.id}')" onkeydown="if(event.key==='Enter')finishEdit('${t.id}')" />`
-          : `<div class="task-text ${t.done?'striked':''}" ondblclick="startEdit('${t.id}')">${t.text}</div>`
-        }
-        ${(dateBadge||priBadge) ? `<div class="task-meta">${dateBadge}${priBadge}</div>` : ''}
-      </div>
-      <button class="task-del" onclick="delTask('${t.id}')">×</button>
-    </div>`;
-  }
-
-  sortedKeys.forEach(key => {
-    const d = parseDate(key);
-    const label = isToday(key) ? 'Today' : isOverdue(key) ? `Overdue · ${formatDate(key)}` : formatDate(key);
-    const cls = isToday(key) ? 'today' : (isOverdue(key) ? 'overdue' : '');
-    html += `<div class="date-group"><div class="date-group-label ${cls}">${label}</div><div class="task-list">${groups[key].map(taskHtml).join('')}</div></div>`;
-  });
-
-  if (noDate.length) {
-    html += `<div class="date-group"><div class="date-group-label">No date</div><div class="task-list">${noDate.map(taskHtml).join('')}</div></div>`;
-  }
-
-  if (!visible.length) html = `<div class="empty"><div class="empty-icon">✓</div>Nothing here</div>`;
-
-  document.getElementById('task-list').innerHTML = html;
-}
-
 function formatDate(str) {
   if (!str) return '';
   const d = parseDate(str);
   return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year: d.getFullYear()!==new Date().getFullYear()?'numeric':undefined });
 }
+function formatAlarm(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}) + ' at ' + d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+}
+function setSyncStatus(state, msg) {
+  document.getElementById('sync-dot').className = 'sync-dot ' + state;
+  document.getElementById('sync-label').textContent = msg;
+}
 
-// Keyboard shortcut
-document.getElementById('new-text').addEventListener('keydown', e => { if(e.key==='Enter') window.addTask(); });
+document.getElementById('date-chip').textContent = new Date().toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
 
-// Real-time listener
+// ── Month chips ───────────────────────────────────────────────────────
+function buildMonthChips() {
+  const now = new Date();
+  const months = Array.from({length:6},(_,i)=>{ const d=new Date(now.getFullYear(),now.getMonth()+i,1); return { key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`, label:d.toLocaleDateString('en-GB',{month:'long',year:'numeric'}) }; });
+  document.getElementById('month-scroll').innerHTML =
+    `<button class="month-chip ${activeMonth===null?'active':''}" onclick="setMonth(null,this)">All months</button>` +
+    months.map(m=>`<button class="month-chip ${activeMonth===m.key?'active':''}" onclick="setMonth('${m.key}',this)">${m.label}</button>`).join('');
+}
+window.setMonth = (key,btn) => { activeMonth=key; document.querySelectorAll('.month-chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(); };
+window.setFilter = (f,btn) => { filter=f; document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(); };
+
+// ── CRUD ──────────────────────────────────────────────────────────────
+window.addTask = async function() {
+  const text = document.getElementById('new-text').value.trim();
+  if (!text) return;
+  const dueDate = document.getElementById('new-date').value || null;
+  const priority = document.getElementById('new-priority').value || null;
+  const aDate = document.getElementById('new-alarm-date').value;
+  const aTime = document.getElementById('new-alarm-time').value;
+  let alarmAt = null;
+  if (aDate && aTime) alarmAt = new Date(`${aDate}T${aTime}`).toISOString();
+  else if (aDate) alarmAt = new Date(`${aDate}T09:00`).toISOString();
+  setSyncStatus('syncing','Saving…');
+  try {
+    await addDoc(tasksCol, { text, done:false, dueDate, priority, alarmAt, createdAt:serverTimestamp() });
+    ['new-text','new-date','new-alarm-date','new-alarm-time'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('new-priority').value='';
+    setSyncStatus('synced','Synced');
+  } catch(e) { setSyncStatus('error','Error saving'); }
+};
+
+window.toggleTask = async (id,current) => { setSyncStatus('syncing','Saving…'); try { await updateDoc(doc(db,'tasks',id),{done:!current}); setSyncStatus('synced','Synced'); } catch(e){setSyncStatus('error','Error');} };
+window.delTask = async (id) => { setSyncStatus('syncing','Saving…'); try { await deleteDoc(doc(db,'tasks',id)); setSyncStatus('synced','Synced'); } catch(e){setSyncStatus('error','Error');} };
+window.startEdit = (id) => { editingId=id; render(); const el=document.getElementById('edit-'+id); if(el){el.focus();el.select();} };
+window.finishEdit = async (id) => {
+  const el=document.getElementById('edit-'+id); if(!el) return;
+  const val=el.value.trim();
+  if(val){setSyncStatus('syncing','Saving…'); try{await updateDoc(doc(db,'tasks',id),{text:val}); setSyncStatus('synced','Synced');}catch(e){setSyncStatus('error','Error');}}
+  editingId=null; render();
+};
+window.clearDone = async () => { setSyncStatus('syncing','Saving…'); try{await Promise.all(tasks.filter(t=>t.done).map(t=>deleteDoc(doc(db,'tasks',t.id)))); setSyncStatus('synced','Synced');}catch(e){setSyncStatus('error','Error');} };
+
+// ── Render ────────────────────────────────────────────────────────────
+function render() {
+  let visible = [...tasks];
+  if (activeMonth) visible = visible.filter(t=>t.dueDate&&t.dueDate.slice(0,7)===activeMonth);
+  if (filter==='today') visible=visible.filter(t=>isToday(t.dueDate));
+  else if (filter==='week') visible=visible.filter(t=>isThisWeek(t.dueDate));
+  else if (filter==='active') visible=visible.filter(t=>!t.done);
+  else if (filter==='done') visible=visible.filter(t=>t.done);
+  else if (filter==='overdue') visible=visible.filter(t=>!t.done&&isOverdue(t.dueDate));
+
+  const total=tasks.length, done=tasks.filter(t=>t.done).length;
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-done').textContent=done;
+  document.getElementById('s-left').textContent=total-done;
+  document.getElementById('progress-label').textContent=`${done} of ${total} done`;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('progress-pct').textContent=pct+'%';
+  document.getElementById('progress-fill').style.width=pct+'%';
+
+  const groups={}, noDate=[];
+  visible.forEach(t=>{ if(!t.dueDate){noDate.push(t);return;} if(!groups[t.dueDate])groups[t.dueDate]=[]; groups[t.dueDate].push(t); });
+
+  function taskHtml(t) {
+    let dateBadge='';
+    if(t.dueDate){
+      if(!t.done&&isOverdue(t.dueDate)) dateBadge=`<span class="task-date-badge overdue">Overdue · ${formatDate(t.dueDate)}</span>`;
+      else if(isToday(t.dueDate)) dateBadge=`<span class="task-date-badge today">Today</span>`;
+      else dateBadge=`<span class="task-date-badge future">${formatDate(t.dueDate)}</span>`;
+    }
+    const priBadge=t.priority?`<span class="priority-badge ${t.priority}">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>`:'';
+    let alarmBadge='';
+    if(t.alarmAt&&!t.done){
+      const fired=new Date(t.alarmAt)<=new Date();
+      alarmBadge=`<span class="alarm-badge ${fired?'fired':''}">🔔 ${formatAlarm(t.alarmAt)}</span>`;
+    }
+    return `<div class="task-item ${t.done?'done':''}" id="item-${t.id}">
+      <button class="check-btn ${t.done?'checked':''}" onclick="toggleTask('${t.id}',${t.done})"></button>
+      <div class="task-body">
+        ${editingId===t.id
+          ?`<input class="task-edit-input" id="edit-${t.id}" value="${t.text.replace(/"/g,'&quot;')}" onblur="finishEdit('${t.id}')" onkeydown="if(event.key==='Enter')finishEdit('${t.id}')" />`
+          :`<div class="task-text ${t.done?'striked':''}" ondblclick="startEdit('${t.id}')">${t.text}</div>`
+        }
+        ${(dateBadge||priBadge||alarmBadge)?`<div class="task-meta">${dateBadge}${priBadge}${alarmBadge}</div>`:''}
+      </div>
+      <button class="task-del" onclick="delTask('${t.id}')">×</button>
+    </div>`;
+  }
+
+  let html='';
+  Object.keys(groups).sort().forEach(key=>{
+    const label=isToday(key)?'Today':isOverdue(key)?`Overdue · ${formatDate(key)}`:formatDate(key);
+    const cls=isToday(key)?'today':(isOverdue(key)?'overdue':'');
+    html+=`<div class="date-group"><div class="date-group-label ${cls}">${label}</div><div class="task-list">${groups[key].map(taskHtml).join('')}</div></div>`;
+  });
+  if(noDate.length) html+=`<div class="date-group"><div class="date-group-label">No date</div><div class="task-list">${noDate.map(taskHtml).join('')}</div></div>`;
+  if(!visible.length) html=`<div class="empty"><div class="empty-icon">✓</div>Nothing here</div>`;
+  document.getElementById('task-list').innerHTML=html;
+}
+
+document.getElementById('new-text').addEventListener('keydown', e=>{ if(e.key==='Enter') window.addTask(); });
+
 const q = query(tasksCol, orderBy('createdAt','asc'));
 onSnapshot(q,
-  snap => {
-    tasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    render();
-    buildMonthChips();
-    setSyncStatus('synced', 'Synced · ' + new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+  snap=>{
+    tasks=snap.docs.map(d=>({id:d.id,...d.data()}));
+    render(); buildMonthChips(); scheduleAllAlarms();
+    setSyncStatus('synced','Synced · '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
+    document.getElementById('loading').style.display='none';
+    document.getElementById('app').style.display='block';
   },
-  err => {
-    setSyncStatus('error', 'Connection error');
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+  ()=>{
+    setSyncStatus('error','Connection error');
+    document.getElementById('loading').style.display='none';
+    document.getElementById('app').style.display='block';
   }
 );
 
+checkNotifPermission();
 buildMonthChips();
 </script>
 </body>
