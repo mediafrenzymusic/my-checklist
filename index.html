@@ -267,16 +267,11 @@ window.requestNotif = async function() {
   scheduleAllAlarms();
 };
 
-async function fireNotification(title, body, tag) {
+function fireNotification(title, body, tag) {
   try {
-    const swReg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
-    if (swReg) {
-      await swReg.showNotification(title, { body, tag, requireInteraction: true });
-    } else {
-      new Notification(title, { body, tag, requireInteraction: true });
-    }
+    new Notification(title, { body, tag, requireInteraction: true });
   } catch(e) {
-    new Notification(title, { body, tag });
+    console.error('Notification failed:', e);
   }
 }
 
@@ -302,8 +297,8 @@ async function scheduleAllAlarms() {
 }
 
 // Test helper — type window.testAlarm() in console to fire a test notification immediately
-window.testAlarm = async () => {
-  await fireNotification('⏰ Test alarm', 'Stuart\'s Checklist alarm is working!', 'test');
+window.testAlarm = () => {
+  fireNotification('⏰ Test alarm', "Stuart's Checklist alarm is working!", 'test');
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────
