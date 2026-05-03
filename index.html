@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<title>My Checklist</title>
+<title>Stuart's Checklist</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -140,14 +140,14 @@
 <body>
 
 <div id="loading">
-  <div class="logo">My Checklist</div>
+  <div class="logo">Stuart's Checklist</div>
   <div class="spinner"></div>
 </div>
 
 <div id="app" style="display:none">
   <div class="header">
     <div class="header-top">
-      <h1>My<br>Checklist</h1>
+      <h1>Stuart's<br>Checklist</h1>
       <div class="date-chip" id="date-chip"></div>
     </div>
   </div>
@@ -240,6 +240,14 @@ let editingId = null;
 const alarmTimers = {};
 
 // ── Notifications ─────────────────────────────────────────────────────
+async function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    await navigator.serviceWorker.register('/sw.js');
+  } catch(e) { /* SW registration failed, fall back to setTimeout */ }
+}
+registerSW();
+
 function checkNotifPermission() {
   if (!('Notification' in window)) return;
   const wrap = document.getElementById('notif-banner-wrap');
@@ -256,16 +264,40 @@ window.requestNotif = async function() {
   scheduleAllAlarms();
 };
 
-function scheduleAllAlarms() {
+async function scheduleAllAlarms() {
+  // Clear old setTimeout timers
   Object.values(alarmTimers).forEach(t => clearTimeout(t));
   Object.keys(alarmTimers).forEach(k => delete alarmTimers[k]);
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
   const now = Date.now();
+  const swReg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
+
   tasks.forEach(t => {
     if (t.done || !t.alarmAt) return;
     const fireAt = new Date(t.alarmAt).getTime();
     const delay = fireAt - now;
-    if (delay > 0 && delay < 7 * 24 * 60 * 60 * 1000) {
+    if (delay <= 0) return; // already past
+
+    if (swReg && swReg.showNotification) {
+      // Use Service Worker notification — works when tab is backgrounded on Android
+      // Schedule via setTimeout to trigger the SW notification at the right time
+      alarmTimers[t.id] = setTimeout(async () => {
+        try {
+          await swReg.showNotification('⏰ ' + t.text, {
+            body: t.dueDate ? 'Due: ' + formatDate(t.dueDate) : 'Your checklist reminder',
+            tag: t.id,
+            requireInteraction: true,
+            icon: '/icon-192.png',
+            badge: '/icon-192.png'
+          });
+        } catch(e) {
+          // Fallback to basic Notification
+          new Notification('⏰ ' + t.text, { body: t.dueDate ? 'Due: ' + formatDate(t.dueDate) : 'Your checklist reminder', tag: t.id });
+        }
+      }, delay);
+    } else {
+      // Basic fallback (desktop / when SW unavailable)
       alarmTimers[t.id] = setTimeout(() => {
         new Notification('⏰ ' + t.text, {
           body: t.dueDate ? 'Due: ' + formatDate(t.dueDate) : 'Your checklist reminder',
@@ -287,7 +319,7 @@ function isThisWeek(str) { if (!str) return false; const d = parseDate(str); con
 function formatDate(str) {
   if (!str) return '';
   const d = parseDate(str);
-  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year: d.getFullYear()!==new Date().getFullYear()?'numeric':undefined });
+  return d.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'short', year: d.getFullYear()!==new Date().getFullYear()?'numeric':undefined });
 }
 function formatAlarm(iso) {
   if (!iso) return '';
