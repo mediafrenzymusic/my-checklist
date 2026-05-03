@@ -256,8 +256,10 @@ function checkNotifPermission() {
   const wrap = document.getElementById('notif-banner-wrap');
   if (Notification.permission === 'default') {
     wrap.innerHTML = `<div class="notif-banner"><p>Enable notifications so your alarms can alert you 🔔</p><button onclick="requestNotif()">Enable alarms</button></div>`;
+  } else if (Notification.permission === 'granted') {
+    wrap.innerHTML = `<div class="notif-banner" style="background:var(--accent-light);border-color:var(--accent)"><p style="color:var(--accent-text)">🔔 Alarms enabled</p><button style="background:var(--accent)" onclick="window.testAlarm()">Test alarm</button></div>`;
   } else {
-    wrap.innerHTML = '';
+    wrap.innerHTML = `<div class="notif-banner"><p>Notifications blocked — please allow them in your browser settings 🔔</p></div>`;
   }
 }
 
