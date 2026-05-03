@@ -239,6 +239,9 @@ let activeMonth = null;
 let editingId = null;
 const alarmTimers = {};
 
+// Expose for debugging
+window._debug = () => ({ tasks, alarmTimers });
+
 // ── Notifications ─────────────────────────────────────────────────────
 async function registerSW() {
   if (!('serviceWorker' in navigator)) return;
@@ -264,50 +267,44 @@ window.requestNotif = async function() {
   scheduleAllAlarms();
 };
 
+async function fireNotification(title, body, tag) {
+  try {
+    const swReg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
+    if (swReg) {
+      await swReg.showNotification(title, { body, tag, requireInteraction: true });
+    } else {
+      new Notification(title, { body, tag, requireInteraction: true });
+    }
+  } catch(e) {
+    new Notification(title, { body, tag });
+  }
+}
+
 async function scheduleAllAlarms() {
-  // Clear old setTimeout timers
   Object.values(alarmTimers).forEach(t => clearTimeout(t));
   Object.keys(alarmTimers).forEach(k => delete alarmTimers[k]);
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
-
   const now = Date.now();
-  const swReg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
-
   tasks.forEach(t => {
     if (t.done || !t.alarmAt) return;
     const fireAt = new Date(t.alarmAt).getTime();
     const delay = fireAt - now;
-    if (delay <= 0) return; // already past
-
-    if (swReg && swReg.showNotification) {
-      // Use Service Worker notification — works when tab is backgrounded on Android
-      // Schedule via setTimeout to trigger the SW notification at the right time
-      alarmTimers[t.id] = setTimeout(async () => {
-        try {
-          await swReg.showNotification('⏰ ' + t.text, {
-            body: t.dueDate ? 'Due: ' + formatDate(t.dueDate) : 'Your checklist reminder',
-            tag: t.id,
-            requireInteraction: true,
-            icon: '/icon-192.png',
-            badge: '/icon-192.png'
-          });
-        } catch(e) {
-          // Fallback to basic Notification
-          new Notification('⏰ ' + t.text, { body: t.dueDate ? 'Due: ' + formatDate(t.dueDate) : 'Your checklist reminder', tag: t.id });
-        }
-      }, delay);
-    } else {
-      // Basic fallback (desktop / when SW unavailable)
-      alarmTimers[t.id] = setTimeout(() => {
-        new Notification('⏰ ' + t.text, {
-          body: t.dueDate ? 'Due: ' + formatDate(t.dueDate) : 'Your checklist reminder',
-          tag: t.id,
-          requireInteraction: true
-        });
-      }, delay);
-    }
+    if (delay <= 0) return;
+    alarmTimers[t.id] = setTimeout(() => {
+      fireNotification(
+        '⏰ ' + t.text,
+        t.dueDate ? 'Due: ' + formatDate(t.dueDate) : 'Your checklist reminder',
+        t.id
+      );
+    }, delay);
+    console.log(`Alarm scheduled for "${t.text}" in ${Math.round(delay/1000)}s`);
   });
 }
+
+// Test helper — type window.testAlarm() in console to fire a test notification immediately
+window.testAlarm = async () => {
+  await fireNotification('⏰ Test alarm', 'Stuart\'s Checklist alarm is working!', 'test');
+};
 
 // ── Helpers ───────────────────────────────────────────────────────────
 const todayStr = () => new Date().toISOString().slice(0,10);
